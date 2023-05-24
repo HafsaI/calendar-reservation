@@ -1,64 +1,83 @@
 app.controller("addTenantsController", function($scope, $http) {
     $scope.day = moment();
     // Getting all the tenants and storing them 
-    $http.get("http://localhost:3000/tenant")
-        .then(function (response) {
-           $scope.temp = response.data;
-        });
+
+      $http.get('http://localhost:3000/tenant')
+      .then(response => {
+      $scope.bookings = response.data;
+      })
+      .catch(error => {
+         console.log(error)
+      });
  
-    // Button Click makes a reservation
+    // Makes a reservation
     $scope.reserve = function () {
-       var exist = false;
-       for (var i = 0;i < $scope.temp.length; i++){
-          if ($scope.temp[i].tennantName == $scope.tenantname && $scope.temp[i].time == $scope.day.unix()){
-             exist = true;
-             break;
-          }
+
+       let alreadyBooked = false;
+       // looping over all bookings to check if same tenant has already booked
+
+       for (let i = 0;i < $scope.bookings.length; i++){
+         // only tenants with same name and date cannot book more than once - else can book
+         if ($scope.bookings[i].tennantName == $scope.tenantname && $scope.bookings[i].time == $scope.day.unix()){
+            alreadyBooked = true;
+            break;
+         }
        };
-       if(!exist && $scope.tenantname.length >= 0){
-          $scope.temp.push({
+
+       // if not booked and non-empty name
+       if(!alreadyBooked && $scope.tenantname.length >= 0){
+         console.log('here', alreadyBooked)
+          $scope.bookings.push({
              "tennantName": $scope.tenantname,
              "time": $scope.day.unix(),
              "reserved": true
           });
        }
  
+      // tenant with same name booking not added
        $http.post(
-           "http://localhost:3000/reserve",
-           {
-              "tennantName": $scope.tenantname,
-              "time": $scope.day.unix(),
-              "reserved": true
-           }).success(Success).error(Fail);
+         "http://localhost:3000/reserve",
+         {
+            "tennantName": $scope.tenantname,
+            "time": $scope.day.unix(),
+            "reserved": true
+         }).then(res => {
+            console.log("Request Successful", res)
+         }
+         ).catch(err => {
+            // Handle error
+            console.log("Request Unsucessful", err);
+         });
     };
  
     // Cancels the reservation
     $scope.cancel = function (name,time) {
-       var tempo = false;
-       for (var i = 0;i < $scope.temp.length; i++){
-          if ($scope.temp[i].tennantName == name && $scope.temp[i].time == time){
-             tempo=i;
-             break;
-          }
-       }
-       if (tempo !== false){
-          $scope.temp.splice(tempo,1);
-          $http.post(
-              "http://localhost:3000/reserve",
-              {
-                 "tennantName": name,
-                 "time": time,
-                 "reserved": false
-              }).success(Success).error(Fail);
-       }
+      let index = -1
+      for (var i = 0;i < $scope.bookings.length; i++){
+         if ($scope.bookings[i].tennantName == name && $scope.bookings[i].time == time){
+            index=i;
+            break;
+         }
+      }
+      if (index !== false){
+         $scope.bookings.splice(index,1);
+         $http.post("http://localhost:3000/reserve", {
+            "tennantName": name,
+            "time": time,
+            "reserved": false
+         })
+         .then(res => {
+            console.log("Request Successful", res)
+         }
+         ).catch(err => {
+            // Handle error
+            console.log("Request Unsucessful", err);
+         });
+      }
     };
-    // functions to handle indicate whether the backend calls were a success or a failure
-    var Success = function (){
-       console.log("Successful");
-    };
-    var Fail = function (){
-       console.log("Not successful");
-    };
+ 
  });
  
+ 
+
  
