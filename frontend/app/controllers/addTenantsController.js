@@ -1,7 +1,6 @@
 app.controller("addTenantsController", function($scope, $http) {
     $scope.day = moment();
     // Getting all the tenants and storing them 
-
       $http.get('http://localhost:3000/tenant')
       .then(response => {
       $scope.bookings = response.data;
@@ -14,17 +13,17 @@ app.controller("addTenantsController", function($scope, $http) {
     $scope.reserve = function () {
 
        let alreadyBooked = false;
-       // looping over all bookings to check if same tenant has already booked
+       // Looping over all bookings to check if same tenant has already booked
 
        for (let i = 0;i < $scope.bookings.length; i++){
-         // only tenants with same name and date cannot book more than once - else can book
+         // Tenants with same name and date cannot book more than once - else can book
          if ($scope.bookings[i].tennantName == $scope.tenantname && $scope.bookings[i].time == $scope.day.unix()){
             alreadyBooked = true;
             break;
          }
        };
 
-       // if not booked and non-empty name
+       // If not booked and non-empty name
        if(!alreadyBooked && $scope.tenantname.length >= 0){
          console.log('here', alreadyBooked)
           $scope.bookings.push({
@@ -34,7 +33,7 @@ app.controller("addTenantsController", function($scope, $http) {
           });
        }
  
-      // tenant with same name booking not added
+      // Tenant with same name booking not added
        $http.post(
          "http://localhost:3000/reserve",
          {
