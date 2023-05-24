@@ -14,22 +14,26 @@
 <body>
   <div ng-controller="addTenantsController" >
     <!-- Calendar directive -->
-    <div class="container">
-      <calendar selected="day"></calendar>
+    <div class="outer-container">
+      <div class="container">
+        <calendar selected="day"></calendar>
+      </div>
+        <!-- Make reservation-->
+      <div class = "reservedtenant container two">
+        <h4> Book a Date</h4>
+        <form>
+          Tenant Name: <input ng-model="tenantname" placeholder="Enter tenant name" required="">
+          <p>Stay Date: <b>{{day.format('MMMM DD')}}</b></p>
+          <button class="button" ng-click="reserve()">Confirm Stay</button>
+        </form>
+      </div>
     </div>
-      <!-- Make reservation-->
-      <div class = "hostedtenant container">
-       <form>
-         Tenant Name: <input ng-model="tenantname" placeholder="Enter tenant name" required="">
-         <p>Stay date: <b>{{day.format('MMMM DD')}}</b></p>
-         <button class="button" ng-click="reserve()">Confirm Stay</button>
-       </form>
-     </div>
 
     <!-- Displaying all the reserved tenants along with their reserved dates and a cancel stay button -->
+    <h2> Booked Dates</h2>
     <div style="display: grid; grid-template-columns: auto auto auto;">
       <form ng-repeat="i in bookings track by $index">
-        <div class = "hostedtenant">
+        <div class = "reservedtenant">
           <p>Tenant Name: {{i.tennantName}}</p>
 
           <p>Stay Date: {{i.time * 1000 | date:'MMMM dd'}}</p>

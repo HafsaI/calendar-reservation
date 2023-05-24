@@ -1,6 +1,5 @@
 app.directive("calendar", function() {
    return {
- 
       restrict: "E",
       templateUrl: "./directives/calendar.html",
       scope: {

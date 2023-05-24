@@ -30,7 +30,9 @@ body>h1 {
     cursor: pointer;
 }
 
-.hostedtenant{
+/* tenant box */
+
+.reservedtenant{
     border: 1px solid rgb(96, 99, 101);
     width: 300px;
     margin: 10px;
@@ -38,12 +40,16 @@ body>h1 {
     border-radius: 10px;
 }
 
-.container{
-    display: inline-block;
-    margin: 10px
+/* aligning */
+
+.outer-container{
+    display: flex;
 }
-
-
+.two{
+    float: right;
+    margin-right: 70px;
+    flex: none;
+}
 
 span { color:#888888;
     >b { color:black; }
@@ -53,7 +59,7 @@ span { color:#888888;
 .border-box { box-sizing:border-box; -moz-box-sizing:border-box; }
 
 @border-colour:#CCC;
-calendar { float:left; display:block; .border-box; background:white; width:500px; border:solid 1px @border-colour; margin-bottom:10px;
+calendar { float:left; display:inline-block; .border-box; background:white; width:500px; border:solid 1px @border-colour; margin-bottom:10px;
     @secondary-colour:hwb(98 38% 16%);
     @spacing:10px;
     @icon-width:40px;
