@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html ng-app="myApp">
+<head>
+  <link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.2.0/css/font-awesome.css" />
+  <link rel="stylesheet/less" type="text/css" href="app.less" />
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.5/angular.min.js"></script>
+  <script src="app.js"></script>
+  <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/less.js/1.7.5/less.min.js"></script>
+  <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.8.3/moment.min.js"></script>
+  <title>Calendar Reserver</title>
+
+</head>
+
+<body>
+  <div ng-controller="addTenantsController" >
+    <!-- Calendar directive -->
+    <div class="container">
+      <calendar selected="day"></calendar>
+    </div>
+      <!-- Make reservation-->
+      <div class = "hostedtenant container top">
+       <form>
+         Tenant Name: <input ng-model="tenantname" placeholder="Enter tenant name" required="">
+         <p>Stay date: <b>{{day.format('MMMM DD')}}</b></p>
+         <button class="button" ng-click="reserve()">Confirm Stay</button>
+       </form>
+     </div>
+
+    <!-- Displaying all the reserved tenants along with their reserved dates and a cancel stay button -->
+    <div style="display: grid; grid-template-columns: auto auto auto;">
+      <form ng-repeat="i in temp track by $index">
+        <div class = "hostedtenant">
+          <p>Tenant Name: {{i.tennantName}}</p>
+
+          <p>Stay Date: {{i.time * 1000 | date:'MMMM dd'}}</p>
+          <!-- Cancel Button -->
+          <button class="button2" ng-click="cancel(i.tennantName,i.time)">Cancel Stay</button>
+        </div>
+      </form>
+    </div> 
+  </div>
+  
+
+  <script src="./controllers/addTenantsController.js"></script>
+  <script src="./directives/calendar.js"></script>
+
+</body>
+
+</html>
