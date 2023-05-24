@@ -18,7 +18,7 @@
       <calendar selected="day"></calendar>
     </div>
       <!-- Make reservation-->
-      <div class = "hostedtenant container top">
+      <div class = "hostedtenant container">
        <form>
          Tenant Name: <input ng-model="tenantname" placeholder="Enter tenant name" required="">
          <p>Stay date: <b>{{day.format('MMMM DD')}}</b></p>
@@ -28,7 +28,7 @@
 
     <!-- Displaying all the reserved tenants along with their reserved dates and a cancel stay button -->
     <div style="display: grid; grid-template-columns: auto auto auto;">
-      <form ng-repeat="i in temp track by $index">
+      <form ng-repeat="i in bookings track by $index">
         <div class = "hostedtenant">
           <p>Tenant Name: {{i.tennantName}}</p>
 
